@@ -20,7 +20,7 @@ def parse_input(input_text):
     return actions
 
 
-cube = Cube3d()
+cube = RubiksCube()
 
 cube.show()
 print()

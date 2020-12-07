@@ -3,7 +3,14 @@ from copy import deepcopy
 
 class RubiksCube:
     def __init__(self):
-        self.cube = [["R", "R", "W"], ["G", "C", "W"], ["G", "B", "B"]]
+        self.cube = {
+            "front": ["O", "O", "O", "O", "O", "O", "O", "O", "O"],
+            "right": ["G", "G", "G", "G", "G", "G", "G", "G", "G"],
+            "up": ["B", "B", "B", "B", "B", "B", "B", "B", "B"],
+            "back": ["Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y"],
+            "left": ["W", "W", "W", "W", "W", "W", "W", "W", "W"],
+            "down": ["R", "R", "R", "R", "R", "R", "R", "R", "R"],
+        }
 
     def show(self):
         for i in self.cube:

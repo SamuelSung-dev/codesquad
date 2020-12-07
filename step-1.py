@@ -4,10 +4,15 @@ input_list = input_text.split()
 
 text = input_list[0]
 move_count = 0
-if input_list[1].isnumeric():
+
+try:
     move_count = int(input_list[1])
-else:
-    print("Second input is not number.")
+except:
+    print("Second input is not integer.")
+    exit()
+
+if move_count < -100 or move_count >= 100:
+    print("Second input is out of range.")
     exit()
 
 direction = input_list[2].lower()

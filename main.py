@@ -1,6 +1,6 @@
-from cube2d import Cube2d
+from cube3d import Cube3d
 
-cube = Cube2d()
+cube = Cube3d()
 
 cube.show()
 print()

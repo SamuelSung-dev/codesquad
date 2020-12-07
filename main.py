@@ -1,14 +1,7 @@
 from cube3d import Cube3d
 
-cube = Cube3d()
 
-cube.show()
-print()
-
-while True:
-    print("CUBE> ", end="")
-    input_text = input()
-
+def parse_input(input_text):
     actions = []
     for ii in range(len(input_text)):
         letter = input_text[ii]
@@ -24,6 +17,19 @@ while True:
             actions.append(action_tmp)
         elif letter == "Q":
             actions.append(letter)
+    return actions
+
+
+cube = Cube3d()
+
+cube.show()
+print()
+
+while True:
+    print("CUBE> ", end="")
+    input_text = input()
+
+    actions = parse_input(input_text)
 
     for action in actions:
         if action == "Q":

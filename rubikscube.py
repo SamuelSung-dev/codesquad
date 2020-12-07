@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 
-class Cube3d:
+class RubiksCube:
     def __init__(self):
         self.cube = [["R", "R", "W"], ["G", "C", "W"], ["G", "B", "B"]]
 

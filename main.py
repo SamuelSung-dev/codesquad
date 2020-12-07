@@ -1,4 +1,4 @@
-from cube3d import Cube3d
+from rubikscube import RubiksCube
 
 
 def parse_input(input_text):

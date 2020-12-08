@@ -1,27 +1,16 @@
-from copy import deepcopy
+from collections import deque
 
 
 class RubiksCube:
     def __init__(self):
         self.cube = {
-            "front": {"color": "O", "pieces": ["O", "O", "O", "O", "O", "O", "O", "O"]},
-            "right": {"color": "G", "pieces": ["G", "G", "G", "G", "G", "G", "G", "G"]},
-            "up":    {"color": "B", "pieces": ["B", "B", "B", "B", "B", "B", "B", "B"]},
-            "back":  {"color": "Y", "pieces": ["Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y"]},
-            "left":  {"color": "W", "pieces": ["W", "W", "W", "W", "W", "W", "W", "W"]},
-            "down":  {"color": "R", "pieces": ["R", "R", "R", "R", "R", "R", "R", "R"]},
+            "F": Face("O"),  # Front Face
+            "R": Face("G"),  # Right Face
+            "U": Face("B"),  # Up Face
+            "B": Face("Y"),  # Back Face
+            "L": Face("W"),  # Left Face
+            "D": Face("R"),  # Down Face
         }
-
-    def show_row(self, face, num):
-        if num == 0:
-            print(self.cube[face]["pieces"][0], self.cube[face]
-                  ["pieces"][1], self.cube[face]["pieces"][2], end="")
-        elif num == 1:
-            print(self.cube[face]["pieces"][7], self.cube[face]
-                  ["color"], self.cube[face]["pieces"][3], end="")
-        elif num == 2:
-            print(self.cube[face]["pieces"][6], self.cube[face]
-                  ["pieces"][5], self.cube[face]["pieces"][4], end="")
 
     def show(self):
         print("                ", end="")
@@ -62,65 +51,72 @@ class RubiksCube:
         self.show_row("down", 2)
 
     def rotate_face(self, face, rotation):
+        tmp = []
         if rotation == "clockwise":
-            pop_7 = self.cube[face]["pieces"].pop()
-            pop_6 = self.cube[face]["pieces"].pop()
-            self.cube[face]["pieces"].insert(0, pop_7)
-            self.cube[face]["pieces"].insert(0, pop_6)
+            tmp.append(self.cube[face]["pieces"].pop())
+            tmp.append(self.cube[face]["pieces"].pop())
+            self.cube[face]["pieces"].insert(0, tmp.pop(0))
+            self.cube[face]["pieces"].insert(0, tmp.pop(0))
         elif rotation == "counterclockwise":
-            pop_0 = self.cube[face]["pieces"].pop(0)
-            pop_1 = self.cube[face]["pieces"].pop(0)
-            self.cube[face]["pieces"].append(pop_0)
-            self.cube[face]["pieces"].append(pop_1)
+            tmp = self.cube[face]["pieces"].pop(0)
+            tmp = self.cube[face]["pieces"].pop(0)
+            self.cube[face]["pieces"].append(tmp.pop(0))
+            self.cube[face]["pieces"].append(tmp.pop(0))
 
-    def rotate_top_left(self):
-        top = deepcopy(self.cube[0])
-        self.cube[0][0] = top[1]
-        self.cube[0][1] = top[2]
-        self.cube[0][2] = top[0]
+    def rotate_front_adjacent(self, rotation):
+        D = []
+        L = []
+        U = []
+        R = []
+        D.append(self.cube["down"]["pieces"].pop(0))
+        D.append(self.cube["down"]["pieces"].pop(0))
+        D.append(self.cube["down"]["pieces"].pop(0))
+        L.append(self.cube["left"]["pieces"].pop(2))
+        L.append(self.cube["left"]["pieces"].pop(2))
+        L.append(self.cube["left"]["pieces"].pop(2))
+        U.append(self.cube["up"]["pieces"].pop(4))
+        U.append(self.cube["up"]["pieces"].pop(4))
+        U.append(self.cube["up"]["pieces"].pop(4))
+        R.append(self.cube["right"]["pieces"].pop(6))
+        R.append(self.cube["right"]["pieces"].pop(6))
+        R.append(self.cube["right"]["pieces"].pop(0))
+        if rotation == "clockwise":
+            self.cube["down"]["pieces"].insert(0, R.pop())
+            self.cube["down"]["pieces"].insert(0, R.pop())
+            self.cube["down"]["pieces"].insert(0, R.pop())
+            self.cube["left"]["pieces"].insert(2, D.pop())
+            self.cube["left"]["pieces"].insert(2, D.pop())
+            self.cube["left"]["pieces"].insert(2, D.pop())
+            self.cube["up"]["pieces"].insert(4, L.pop())
+            self.cube["up"]["pieces"].insert(4, L.pop())
+            self.cube["up"]["pieces"].insert(4, L.pop())
+            self.cube["right"]["pieces"].insert(0, U.pop())
+            self.cube["right"]["pieces"].append(U.pop(0))
+            self.cube["right"]["pieces"].append(U.pop(0))
+        elif rotation == "counterclockwise":
+            self.cube["down"]["pieces"].insert(0, L.pop())
+            self.cube["down"]["pieces"].insert(0, L.pop())
+            self.cube["down"]["pieces"].insert(0, L.pop())
+            self.cube["left"]["pieces"].insert(2, U.pop())
+            self.cube["left"]["pieces"].insert(2, U.pop())
+            self.cube["left"]["pieces"].insert(2, U.pop())
+            self.cube["up"]["pieces"].insert(4, R.pop())
+            self.cube["up"]["pieces"].insert(4, R.pop())
+            self.cube["up"]["pieces"].insert(4, R.pop())
+            self.cube["right"]["pieces"].insert(0, D.pop())
+            self.cube["right"]["pieces"].append(D.pop(0))
+            self.cube["right"]["pieces"].append(D.pop(0))
 
-    def rotate_top_right(self):
-        top = deepcopy(self.cube[0])
-        self.cube[0][0] = top[2]
-        self.cube[0][1] = top[0]
-        self.cube[0][2] = top[1]
 
-    def rotate_right_up(self):
-        right = [deepcopy(self.cube[0][2]), deepcopy(
-            self.cube[1][2]), deepcopy(self.cube[2][2])]
-        self.cube[0][2] = right[1]
-        self.cube[1][2] = right[2]
-        self.cube[2][2] = right[0]
+class Face:
+    def __init__(self, color):
+        self.color = color
+        self.pieces = deque(color*8)
 
-    def rotate_right_down(self):
-        right = [deepcopy(self.cube[0][2]), deepcopy(
-            self.cube[1][2]), deepcopy(self.cube[2][2])]
-        self.cube[0][2] = right[2]
-        self.cube[1][2] = right[0]
-        self.cube[2][2] = right[1]
-
-    def rotate_left_down(self):
-        left = [deepcopy(self.cube[0][0]), deepcopy(
-            self.cube[1][0]), deepcopy(self.cube[2][0])]
-        self.cube[0][0] = left[2]
-        self.cube[1][0] = left[0]
-        self.cube[2][0] = left[1]
-
-    def rotate_left_up(self):
-        left = [deepcopy(self.cube[0][0]), deepcopy(
-            self.cube[1][0]), deepcopy(self.cube[2][0])]
-        self.cube[0][0] = left[1]
-        self.cube[1][0] = left[2]
-        self.cube[2][0] = left[0]
-
-    def rotate_bottom_right(self):
-        bottom = deepcopy(self.cube[2])
-        self.cube[2][0] = bottom[2]
-        self.cube[2][1] = bottom[0]
-        self.cube[2][2] = bottom[1]
-
-    def rotate_bottom_left(self):
-        bottom = deepcopy(self.cube[2])
-        self.cube[2][0] = bottom[1]
-        self.cube[2][1] = bottom[2]
-        self.cube[2][2] = bottom[0]
+    def show_row(self, num):
+        if num == 0:
+            print(self.pieces[0], self.pieces[1], self.pieces[2], end="")
+        elif num == 1:
+            print(self.pieces[7], self.color, self.pieces[3], end="")
+        elif num == 2:
+            print(self.pieces[6], self.pieces[5], self.pieces[4], end="")

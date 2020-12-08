@@ -54,6 +54,10 @@ class RubiksCube:
         self.show_updown("D")
         print()
 
+    def rotate(self, face, is_clockwise):
+        self.rotate_face(face, is_clockwise)
+        self.rotate_adjacent(face, is_clockwise)
+
     def rotate_face(self, face, is_clockwise):
         if is_clockwise:
             self.cube[face].pieces.rotate(2)

@@ -1,6 +1,7 @@
 from rubikscube import RubiksCube
 from datetime import timedelta
 from time import time
+from random import choice as random_choice
 
 
 def parse_input(input_text):
@@ -26,6 +27,7 @@ def parse_input(input_text):
 start_time = time()
 cube = RubiksCube()
 control_count = 0
+
 cube.show()
 print()
 
@@ -52,8 +54,7 @@ while True:
         if action.find("'") > 0:
             is_clockwise = False
 
-        cube.rotate_face(face, is_clockwise)
-        cube.rotate_adjacent(face, is_clockwise)
+        cube.rotate(face, is_clockwise)
 
         cube.show()
         print()

@@ -4,24 +4,24 @@ from copy import deepcopy
 class RubiksCube:
     def __init__(self):
         self.cube = {
-            "front": ["O", "O", "O", "O", "O", "O", "O", "O", "O"],
-            "right": ["G", "G", "G", "G", "G", "G", "G", "G", "G"],
-            "up":    ["B", "B", "B", "B", "B", "B", "B", "B", "B"],
-            "back":  ["Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y"],
-            "left":  ["W", "W", "W", "W", "W", "W", "W", "W", "W"],
-            "down":  ["R", "R", "R", "R", "R", "R", "R", "R", "R"],
+            "front": {"color": "O", "pieces": ["O", "O", "O", "O", "O", "O", "O", "O"]},
+            "right": {"color": "G", "pieces": ["G", "G", "G", "G", "G", "G", "G", "G"]},
+            "up":    {"color": "B", "pieces": ["B", "B", "B", "B", "B", "B", "B", "B"]},
+            "back":  {"color": "Y", "pieces": ["Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y"]},
+            "left":  {"color": "W", "pieces": ["W", "W", "W", "W", "W", "W", "W", "W"]},
+            "down":  {"color": "R", "pieces": ["R", "R", "R", "R", "R", "R", "R", "R"]},
         }
 
     def show_row(self, face, num):
         if num == 0:
-            print(self.cube[face][0], self.cube[face]
-                  [1], self.cube[face][2], end="")
+            print(self.cube[face]["pieces"][0], self.cube[face]
+                  ["pieces"][1], self.cube[face]["pieces"][2], end="")
         elif num == 1:
-            print(self.cube[face][7], self.cube[face]
-                  [8], self.cube[face][3], end="")
+            print(self.cube[face]["pieces"][7], self.cube[face]
+                  ["color"], self.cube[face]["pieces"][3], end="")
         elif num == 2:
-            print(self.cube[face][6], self.cube[face]
-                  [5], self.cube[face][4], end="")
+            print(self.cube[face]["pieces"][6], self.cube[face]
+                  ["pieces"][5], self.cube[face]["pieces"][4], end="")
 
     def show(self):
         print("                ", end="")
@@ -60,12 +60,6 @@ class RubiksCube:
         self.show_row("down", 1)
         print("\n                ", end="")
         self.show_row("down", 2)
-
-    def rotate(self, face, 0):
-        """
-        docstring
-        """
-        pass
 
     def rotate_top_left(self):
         top = deepcopy(self.cube[0])

@@ -90,6 +90,12 @@ class RubiksCube:
         for key, value in adjacency_info.items():
             self.cube[key].pieces.rotate(value)
 
+    def check(self):
+        for key, value in self.cube.items():
+            if not value.check():
+                return False
+        return True
+
 
 class Face:
     def __init__(self, color):
@@ -103,3 +109,9 @@ class Face:
             print(self.pieces[7], self.color, self.pieces[3], end="")
         elif row == 2:
             print(self.pieces[6], self.pieces[5], self.pieces[4], end="")
+
+    def check(self):
+        if self.pieces.count(self.color) == 8:
+            return True
+        else:
+            return False

@@ -27,6 +27,14 @@ def parse_input(input_text):
 start_time = time()
 cube = RubiksCube()
 control_count = 0
+random_rotate = random_choice(range(1, 500))
+while True:
+    for ii in range(random_rotate):
+        random_action = random_choice(["F", "B", "U", "D", "L", "R"])
+        random_is_clockwise = random_choice([True, False])
+        cube.rotate(random_action, random_is_clockwise)
+    if not cube.check():
+        break
 
 cube.show()
 print()
@@ -58,3 +66,9 @@ while True:
 
         cube.show()
         print()
+
+        if cube.check():
+            print("조작갯수:", control_count)
+            print("루빅스 큐브를 풀었습니다!")
+            print("축하합니다!")
+            exit()

@@ -12,16 +12,16 @@ class RubiksCube:
             "down":  ["R", "R", "R", "R", "R", "R", "R", "R", "R"],
         }
 
-    def show_row(self, faces, num):
+    def show_row(self, face, num):
         if num == 0:
-            print(self.cube[faces][0], self.cube[faces]
-                  [1], self.cube[faces][2], end="")
+            print(self.cube[face][0], self.cube[face]
+                  [1], self.cube[face][2], end="")
         elif num == 1:
-            print(self.cube[faces][7], self.cube[faces]
-                  [8], self.cube[faces][3], end="")
+            print(self.cube[face][7], self.cube[face]
+                  [8], self.cube[face][3], end="")
         elif num == 2:
-            print(self.cube[faces][6], self.cube[faces]
-                  [5], self.cube[faces][4], end="")
+            print(self.cube[face][6], self.cube[face]
+                  [5], self.cube[face][4], end="")
 
     def show(self):
         print("                ", end="")
@@ -60,6 +60,12 @@ class RubiksCube:
         self.show_row("down", 1)
         print("\n                ", end="")
         self.show_row("down", 2)
+
+    def rotate(self, face, 0):
+        """
+        docstring
+        """
+        pass
 
     def rotate_top_left(self):
         top = deepcopy(self.cube[0])

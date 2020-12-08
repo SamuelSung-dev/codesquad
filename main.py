@@ -38,21 +38,12 @@ while True:
 
         print()
         print(action)
-        if action == "U":
-            cube.rotate_top_left()
-        elif action == "U'":
-            cube.rotate_top_right()
-        elif action == "R":
-            cube.rotate_right_up()
-        elif action == "R'":
-            cube.rotate_right_down()
-        elif action == "L":
-            cube.rotate_left_down()
-        elif action == "L'":
-            cube.rotate_left_up()
-        elif action == "B":
-            cube.rotate_bottom_right()
-        elif action == "B'":
-            cube.rotate_bottom_left()
+        face = action[0]
+        is_clockwise = True
+        if action.find("'") > 0:
+            is_clockwise = False
+        cube.rotate_face(face, is_clockwise)
+        if face == "F":
+            cube.rotate_front_adjacent(is_clockwise)
         cube.show()
         print()

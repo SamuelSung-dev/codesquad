@@ -47,53 +47,34 @@ class RubiksCube:
 
     def rotate_face(self, face, is_clockwise):
         if is_clockwise:
-            self.cube[face].rotate(2)
+            self.cube[face].pieces.rotate(2)
         else:
-            self.cube[face].rotate(-2)
+            self.cube[face].pieces.rotate(-2)
 
-    def rotate_front_adjacent(self, rotation):
-        D = []
-        L = []
-        U = []
-        R = []
-        D.append(self.cube["down"]["pieces"].pop(0))
-        D.append(self.cube["down"]["pieces"].pop(0))
-        D.append(self.cube["down"]["pieces"].pop(0))
-        L.append(self.cube["left"]["pieces"].pop(2))
-        L.append(self.cube["left"]["pieces"].pop(2))
-        L.append(self.cube["left"]["pieces"].pop(2))
-        U.append(self.cube["up"]["pieces"].pop(4))
-        U.append(self.cube["up"]["pieces"].pop(4))
-        U.append(self.cube["up"]["pieces"].pop(4))
-        R.append(self.cube["right"]["pieces"].pop(6))
-        R.append(self.cube["right"]["pieces"].pop(6))
-        R.append(self.cube["right"]["pieces"].pop(0))
-        if rotation == "clockwise":
-            self.cube["down"]["pieces"].insert(0, R.pop())
-            self.cube["down"]["pieces"].insert(0, R.pop())
-            self.cube["down"]["pieces"].insert(0, R.pop())
-            self.cube["left"]["pieces"].insert(2, D.pop())
-            self.cube["left"]["pieces"].insert(2, D.pop())
-            self.cube["left"]["pieces"].insert(2, D.pop())
-            self.cube["up"]["pieces"].insert(4, L.pop())
-            self.cube["up"]["pieces"].insert(4, L.pop())
-            self.cube["up"]["pieces"].insert(4, L.pop())
-            self.cube["right"]["pieces"].insert(0, U.pop())
-            self.cube["right"]["pieces"].append(U.pop(0))
-            self.cube["right"]["pieces"].append(U.pop(0))
-        elif rotation == "counterclockwise":
-            self.cube["down"]["pieces"].insert(0, L.pop())
-            self.cube["down"]["pieces"].insert(0, L.pop())
-            self.cube["down"]["pieces"].insert(0, L.pop())
-            self.cube["left"]["pieces"].insert(2, U.pop())
-            self.cube["left"]["pieces"].insert(2, U.pop())
-            self.cube["left"]["pieces"].insert(2, U.pop())
-            self.cube["up"]["pieces"].insert(4, R.pop())
-            self.cube["up"]["pieces"].insert(4, R.pop())
-            self.cube["up"]["pieces"].insert(4, R.pop())
-            self.cube["right"]["pieces"].insert(0, D.pop())
-            self.cube["right"]["pieces"].append(D.pop(0))
-            self.cube["right"]["pieces"].append(D.pop(0))
+    def rotate_front_adjacent(self, is_clockwise):
+        tmp = {"D": [], "L": [], "U": [], "R": []}
+        i = 0
+        for key, value in tmp.items():
+            self.cube[key].pieces.rotate(i)
+            for ii in range(3):
+                value.append(self.cube[key].pieces.popleft())
+            value.reverse()
+            i = i-2
+        if is_clockwise:
+            self.cube["U"].pieces.extendleft(tmp["L"])
+            self.cube["R"].pieces.extendleft(tmp["U"])
+            self.cube["D"].pieces.extendleft(tmp["R"])
+            self.cube["L"].pieces.extendleft(tmp["D"])
+        else:
+            self.cube["U"].pieces.extendleft(tmp["R"])
+            self.cube["R"].pieces.extendleft(tmp["D"])
+            self.cube["D"].pieces.extendleft(tmp["L"])
+            self.cube["L"].pieces.extendleft(tmp["U"])
+
+        i = 0
+        for key in tmp:
+            self.cube[key].pieces.rotate(i)
+            i = i+2
 
 
 class Face:

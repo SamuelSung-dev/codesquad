@@ -60,30 +60,31 @@ class RubiksCube:
         else:
             self.cube[face].pieces.rotate(-2)
 
-    def rotate_front_adjacent(self, is_clockwise):
-        tmp = {"D": [], "L": [], "U": [], "R": []}
-        i = 0
-        for key, value in tmp.items():
-            self.cube[key].pieces.rotate(i)
-            for ii in range(3):
-                value.append(self.cube[key].pieces.popleft())
-            value.reverse()
-            i = i-2
-        if is_clockwise:
-            self.cube["U"].pieces.extendleft(tmp["L"])
-            self.cube["R"].pieces.extendleft(tmp["U"])
-            self.cube["D"].pieces.extendleft(tmp["R"])
-            self.cube["L"].pieces.extendleft(tmp["D"])
-        else:
-            self.cube["U"].pieces.extendleft(tmp["R"])
-            self.cube["R"].pieces.extendleft(tmp["D"])
-            self.cube["D"].pieces.extendleft(tmp["L"])
-            self.cube["L"].pieces.extendleft(tmp["U"])
+    def rotate_adjacent(self, face, is_clockwise):
+        adjacency_info = self.adjacency_table[face]
+        buffer = {}
+        for key in adjacency_info:
+            buffer[key] = []
 
-        i = 0
-        for key in tmp:
-            self.cube[key].pieces.rotate(i)
-            i = i+2
+        for key, value in adjacency_info.items():
+            self.cube[key].pieces.rotate(-value)
+            for ii in range(3):
+                buffer[key].append(self.cube[key].pieces.popleft())
+            buffer[key].reverse()
+
+        store_key = list(adjacency_info.keys())
+        load_key = deque(adjacency_info.keys())
+
+        if is_clockwise:
+            load_key.rotate()
+        else:
+            load_key.rotate(-1)
+
+        for ii in range(4):
+            self.cube[store_key[ii]].pieces.extendleft(buffer[load_key[ii]])
+
+        for key, value in adjacency_info:
+            self.cube[key].pieces.rotate(value)
 
 
 class Face:

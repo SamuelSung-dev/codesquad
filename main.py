@@ -17,7 +17,8 @@ def parse_input(input_text):
             action_tmp = letter
             if letter_next == "'":
                 action_tmp = action_tmp+letter_next
-
+            elif letter_next == "2":
+                actions.append(action_tmp)
             actions.append(action_tmp)
         elif letter == "Q":
             actions.append(letter)

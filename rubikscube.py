@@ -6,17 +6,60 @@ class RubiksCube:
         self.cube = {
             "front": ["O", "O", "O", "O", "O", "O", "O", "O", "O"],
             "right": ["G", "G", "G", "G", "G", "G", "G", "G", "G"],
-            "up": ["B", "B", "B", "B", "B", "B", "B", "B", "B"],
-            "back": ["Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y"],
-            "left": ["W", "W", "W", "W", "W", "W", "W", "W", "W"],
-            "down": ["R", "R", "R", "R", "R", "R", "R", "R", "R"],
+            "up":    ["B", "B", "B", "B", "B", "B", "B", "B", "B"],
+            "back":  ["Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y"],
+            "left":  ["W", "W", "W", "W", "W", "W", "W", "W", "W"],
+            "down":  ["R", "R", "R", "R", "R", "R", "R", "R", "R"],
         }
 
+    def show_row(self, faces, num):
+        if num == 0:
+            print(self.cube[faces][0], self.cube[faces]
+                  [1], self.cube[faces][2], end="")
+        elif num == 1:
+            print(self.cube[faces][7], self.cube[faces]
+                  [8], self.cube[faces][3], end="")
+        elif num == 2:
+            print(self.cube[faces][6], self.cube[faces]
+                  [5], self.cube[faces][4], end="")
+
     def show(self):
-        for i in self.cube:
-            for j in i:
-                print(j, end=" ")
-            print()
+        print("                ", end="")
+        self.show_row("up", 0)
+        print("\n                ", end="")
+        self.show_row("up", 1)
+        print("\n                ", end="")
+        self.show_row("up", 2)
+        print("\n\n ", end="")
+        self.show_row("left", 0)
+        print("     ", end="")
+        self.show_row("front", 0)
+        print("     ", end="")
+        self.show_row("right", 0)
+        print("     ", end="")
+        self.show_row("back", 0)
+        print("\n ", end="")
+        self.show_row("left", 1)
+        print("     ", end="")
+        self.show_row("front", 1)
+        print("     ", end="")
+        self.show_row("right", 1)
+        print("     ", end="")
+        self.show_row("back", 1)
+        print("\n ", end="")
+        self.show_row("left", 2)
+        print("     ", end="")
+        self.show_row("front", 2)
+        print("     ", end="")
+        self.show_row("right", 2)
+        print("     ", end="")
+        self.show_row("back", 2)
+        print("\n\n                ", end="")
+        self.show_row("down", 0)
+        print("\n                ", end="")
+        self.show_row("down", 1)
+        print("\n                ", end="")
+        self.show_row("down", 2)
 
     def rotate_top_left(self):
         top = deepcopy(self.cube[0])

@@ -10,7 +10,7 @@ def parse_input(input_text):
             letter_next = input_text[ii+1]
         except:
             letter_next = ""
-        if letter == "U" or letter == "R" or letter == "L" or letter == "B":
+        if letter == "F" or letter == "L" or letter == "R" or letter == "U" or letter == "D" or letter == "B":
             action_tmp = letter
             if letter_next == "'":
                 action_tmp = action_tmp+"'"

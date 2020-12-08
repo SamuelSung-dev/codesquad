@@ -12,43 +12,38 @@ class RubiksCube:
             "D": Face("R"),  # Down Face
         }
 
-    def show(self):
+    def show_updown(self, face):
+        '''
+        please use face only "U" and "D"
+        '''
         print("                ", end="")
-        self.show_row("up", 0)
+        self.cube[face].show_row(0)
         print("\n                ", end="")
-        self.show_row("up", 1)
+        self.cube[face].show_row(1)
         print("\n                ", end="")
-        self.show_row("up", 2)
-        print("\n\n ", end="")
-        self.show_row("left", 0)
+        self.cube[face].show_row(2)
+
+    def show_midrow(self, row):
+        print(" ", end="")
+        self.cube["L"].show_row(row)
         print("     ", end="")
-        self.show_row("front", 0)
+        self.cube["F"].show_row(row)
         print("     ", end="")
-        self.show_row("right", 0)
+        self.cube["R"].show_row(row)
         print("     ", end="")
-        self.show_row("back", 0)
-        print("\n ", end="")
-        self.show_row("left", 1)
-        print("     ", end="")
-        self.show_row("front", 1)
-        print("     ", end="")
-        self.show_row("right", 1)
-        print("     ", end="")
-        self.show_row("back", 1)
-        print("\n ", end="")
-        self.show_row("left", 2)
-        print("     ", end="")
-        self.show_row("front", 2)
-        print("     ", end="")
-        self.show_row("right", 2)
-        print("     ", end="")
-        self.show_row("back", 2)
-        print("\n\n                ", end="")
-        self.show_row("down", 0)
-        print("\n                ", end="")
-        self.show_row("down", 1)
-        print("\n                ", end="")
-        self.show_row("down", 2)
+        self.cube["B"].show_row(row)
+
+    def show(self):
+        self.show_updown("U")
+        print("\n")
+        self.show_midrow(0)
+        print()
+        self.show_midrow(1)
+        print()
+        self.show_midrow(2)
+        print("\n")
+        self.show_updown("D")
+        print()
 
     def rotate_face(self, face, rotation):
         tmp = []
@@ -113,10 +108,10 @@ class Face:
         self.color = color
         self.pieces = deque(color*8)
 
-    def show_row(self, num):
-        if num == 0:
+    def show_row(self, row):
+        if row == 0:
             print(self.pieces[0], self.pieces[1], self.pieces[2], end="")
-        elif num == 1:
+        elif row == 1:
             print(self.pieces[7], self.color, self.pieces[3], end="")
-        elif num == 2:
+        elif row == 2:
             print(self.pieces[6], self.pieces[5], self.pieces[4], end="")

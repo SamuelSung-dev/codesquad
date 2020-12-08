@@ -13,7 +13,8 @@ def parse_input(input_text):
         if letter == "F" or letter == "L" or letter == "R" or letter == "U" or letter == "D" or letter == "B":
             action_tmp = letter
             if letter_next == "'":
-                action_tmp = action_tmp+"'"
+                action_tmp = action_tmp+letter_next
+
             actions.append(action_tmp)
         elif letter == "Q":
             actions.append(letter)
@@ -21,7 +22,7 @@ def parse_input(input_text):
 
 
 cube = RubiksCube()
-
+control_count = 0
 cube.show()
 print()
 
@@ -33,17 +34,19 @@ while True:
 
     for action in actions:
         if action == "Q":
-            print("Bye~")
+            print("조작갯수:", control_count)
+            print("이용해주셔서 감사합니다. 뚜뚜뚜.")
             exit()
-
+        control_count = control_count+1
         print()
         print(action)
         face = action[0]
         is_clockwise = True
         if action.find("'") > 0:
             is_clockwise = False
+
         cube.rotate_face(face, is_clockwise)
-        if face == "F":
-            cube.rotate_front_adjacent(is_clockwise)
+        cube.rotate_adjacent(face, is_clockwise)
+
         cube.show()
         print()

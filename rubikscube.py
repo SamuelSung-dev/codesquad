@@ -83,7 +83,7 @@ class RubiksCube:
         for ii in range(4):
             self.cube[store_key[ii]].pieces.extendleft(buffer[load_key[ii]])
 
-        for key, value in adjacency_info:
+        for key, value in adjacency_info.items():
             self.cube[key].pieces.rotate(value)
 
 

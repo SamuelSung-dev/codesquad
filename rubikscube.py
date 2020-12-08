@@ -61,6 +61,18 @@ class RubiksCube:
         print("\n                ", end="")
         self.show_row("down", 2)
 
+    def rotate_face(self, face, rotation):
+        if rotation == "clockwise":
+            pop_7 = self.cube[face]["pieces"].pop()
+            pop_6 = self.cube[face]["pieces"].pop()
+            self.cube[face]["pieces"].insert(0, pop_7)
+            self.cube[face]["pieces"].insert(0, pop_6)
+        elif rotation == "counterclockwise":
+            pop_0 = self.cube[face]["pieces"].pop(0)
+            pop_1 = self.cube[face]["pieces"].pop(0)
+            self.cube[face]["pieces"].append(pop_0)
+            self.cube[face]["pieces"].append(pop_1)
+
     def rotate_top_left(self):
         top = deepcopy(self.cube[0])
         self.cube[0][0] = top[1]

@@ -2,6 +2,15 @@ from collections import deque
 
 
 class RubiksCube:
+    adjacency_table = {
+        "F": {"D": 0, "L": 2, "U": 4, "R": 6},
+        "U": {"F": 0, "L": 0, "B": 0, "R": 0},
+        "D": {"B": 4, "L": 4, "F": 4, "R": 4},
+        "L": {"D": 6, "B": 2, "U": 6, "F": 6},
+        "R": {"D": 2, "F": 2, "U": 2, "B": 6},
+        "B": {"D": 4, "R": 2, "U": 0, "L": 6},
+    }
+
     def __init__(self):
         self.cube = {
             "F": Face("O"),  # Front Face

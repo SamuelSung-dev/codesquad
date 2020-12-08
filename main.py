@@ -1,4 +1,6 @@
 from rubikscube import RubiksCube
+from datetime import timedelta
+from time import time
 
 
 def parse_input(input_text):
@@ -21,6 +23,7 @@ def parse_input(input_text):
     return actions
 
 
+start_time = time()
 cube = RubiksCube()
 control_count = 0
 cube.show()
@@ -34,6 +37,10 @@ while True:
 
     for action in actions:
         if action == "Q":
+            end_time = time()-start_time
+            times = str(timedelta(seconds=end_time)).split(".")
+            times = times[0]
+            print("경과시간:", times)
             print("조작갯수:", control_count)
             print("이용해주셔서 감사합니다. 뚜뚜뚜.")
             exit()

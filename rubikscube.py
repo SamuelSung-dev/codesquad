@@ -45,18 +45,11 @@ class RubiksCube:
         self.show_updown("D")
         print()
 
-    def rotate_face(self, face, rotation):
-        tmp = []
-        if rotation == "clockwise":
-            tmp.append(self.cube[face]["pieces"].pop())
-            tmp.append(self.cube[face]["pieces"].pop())
-            self.cube[face]["pieces"].insert(0, tmp.pop(0))
-            self.cube[face]["pieces"].insert(0, tmp.pop(0))
-        elif rotation == "counterclockwise":
-            tmp = self.cube[face]["pieces"].pop(0)
-            tmp = self.cube[face]["pieces"].pop(0)
-            self.cube[face]["pieces"].append(tmp.pop(0))
-            self.cube[face]["pieces"].append(tmp.pop(0))
+    def rotate_face(self, face, is_clockwise):
+        if is_clockwise:
+            self.cube[face].rotate(2)
+        else:
+            self.cube[face].rotate(-2)
 
     def rotate_front_adjacent(self, rotation):
         D = []
